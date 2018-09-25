@@ -7,7 +7,8 @@ let time = 0;
 let clockId;
 let matched = 0;
 const cardMatch = 'card match open';
-
+const selected = document.querySelectorAll(".show");
+let restartButton = document.querySelector('.restart');
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -23,7 +24,24 @@ function shuffle(array) {
     return array;
 }
 
-// Can you hear what I hear?  Cards? are you clicked?
+
+/*function initGame() {
+  let deck = document.querySelector('.deck');
+  var cardHTML = shuffle(cards).map(function(card) {
+    return generateCard(card);
+  });
+  deck.innerHTML = cardHTML.join('');
+}
+//refresh button
+let restartButton = document.querySelector('.restart');
+restartButton.addEventListener('click', function(e){
+
+  window.location.reload(true);
+
+});
+
+  initGame();*/
+  // Can you hear what I hear?  Cards? are you clicked?
 deck.addEventListener('click', event =>
 {
     const clickTarget = event.target;
@@ -67,8 +85,8 @@ function flipCard(card)
 {
     card.classList.toggle('show');
     card.classList.toggle('open');
-    card.classList.add('flop');
-    card.classList.remove('flip');
+    card.classList.toggle('flop');
+    card.classList.toggle('flip');
 //console.log("the card is flipped");
 }
 
@@ -76,7 +94,7 @@ function flipCard(card)
 function addFlipCard(clickTarget)
 {
     flippedCards.push(clickTarget);
-    console.log(flippedCards);
+    //console.log(flippedCards);
 }
 
 // looking for a match
@@ -99,25 +117,31 @@ function checkForMatch()
     }
     else
     {
+      flippedCards = [];
+
       setTimeout(function()
       {
+            //const selected = document.querySelectorAll(".show");
             fail(); //FAIL FUNCTION when two cards don't match
+
          }, 200);
-         flippedCards = [];
+
        }
 }
 
 
 function fail()
 {
-    var selected = document.querySelectorAll(".show");
+    const selected = document.querySelectorAll(".show");
     selected[0].classList.add("flip");
     selected[1].classList.add("flip");
     selected[0].classList.remove("flop");
     selected[1].classList.remove("flop");
-    setTimeout(function() {
+    setTimeout(function()
+    {
        selected[0].classList.remove("flip", "show", "open");
        selected[1].classList.remove("flip", "show", "open");
+
     }, 1000);
  }
 
@@ -145,7 +169,7 @@ function addMove()
 // star power!  If you don't move too much, you keep your stars!
 function checkScore()
 {
-    if (moves === 10 || moves === 25 || moves === 40)
+    if (moves === 15 || moves === 30)
     {
         hideStar();
     }
@@ -214,6 +238,18 @@ function getStars()
     return starCount;
 }
 
+
+// Reset Functions :
+
+function resetCards()
+{
+    const cards = document.querySelectorAll('.deck li');
+    for (let card of cards)
+    {
+     card.classList.remove('open','show','match');
+    }
+};
+
 // Modal..Thank you https://github.com/ahmedalameldin/fend-project-memory-game for the help with this!
 function toggleModal()
 {
@@ -246,18 +282,24 @@ function writeModalStats()
 document.querySelector('.btn_cancel').addEventListener('click', toggleModal);
 document.querySelector('.modal_start_btn').addEventListener('click', toggleStartModal);
 document.querySelector('.btn_replay').addEventListener('click', replayGame);
-document.querySelector('.restart').addEventListener('click', gameOver);
+document.querySelector('.restart').addEventListener('click', function(e)
+{
+
+  window.location.reload(true);
+
+});
 
 // MODAL: Button replay to reset the game func
 function resetGame()
 {
-    matched = 0;
+    matched === 0;
     resetClockAndTime();
     resetMoves();
     resetStars();
     resetCards();
     shuffleDeck();
 }
+
 
 //MODAL: Button "Replay" to reset the game func
 function replayGame()
@@ -270,17 +312,6 @@ function replayGame()
 };
 
 
-
-// Reset Functions :
-
-function resetCards()
-{
-    const cards = document.querySelectorAll('.deck li');
-    for (let card of cards)
-    {
-    card.classList = 'card reset';
-    }
-};
 
 function resetStars()
 {
@@ -344,4 +375,3 @@ toggleStartModal();
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
-
