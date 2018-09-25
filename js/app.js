@@ -8,6 +8,7 @@ let clockId;
 let matched = 0;
 const cardMatch = 'card match open';
 
+
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -26,7 +27,7 @@ function shuffle(array) {
 deck.addEventListener('click', event =>
 {
     const clickTarget = event.target;
-
+    //restartRefresh();
     if (kosherClick(clickTarget))
     {
         if (clockOff)
@@ -46,10 +47,13 @@ deck.addEventListener('click', event =>
     if (flippedCards.length === 2)
     {
     //console.log('Now flippedCards array have 2 cards');
+
         checkForMatch(clickTarget);
         addMove();
         checkScore();
-    };
+
+      };
+
 });
 
 // Is the click function halal?  or Kosher?  Let's check.
@@ -85,7 +89,6 @@ function checkForMatch()
                 flippedCards[0].className = cardMatch;
                 flippedCards[1].className = cardMatch;
                 flippedCards = [];
-                console.log(flippedCards);
                 setTimeout(function()
                 {
                     checkWin();
@@ -243,7 +246,7 @@ function writeModalStats()
 document.querySelector('.btn_cancel').addEventListener('click', toggleModal);
 document.querySelector('.modal_start_btn').addEventListener('click', toggleStartModal);
 document.querySelector('.btn_replay').addEventListener('click', replayGame);
-document.querySelector('.restart').addEventListener('click', resetGame);
+document.querySelector('.restart').addEventListener('click', gameOver);
 
 // MODAL: Button replay to reset the game func
 function resetGame()
@@ -265,6 +268,7 @@ function replayGame()
     resetCards();
     resetStars()
 };
+
 
 
 // Reset Functions :
@@ -308,9 +312,12 @@ function checkWin()
     if (matched === 8)
     {
         gameOver();
-        //console.log('finished ya 7bibi');
+        //console.log('finished');
     }
 };
+
+
+
 
 // Congratulations
 function gameOver()
@@ -324,6 +331,9 @@ shuffleDeck();
 writeModalStats();
 toggleStartModal();
 
+
+
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -334,3 +344,4 @@ toggleStartModal();
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
